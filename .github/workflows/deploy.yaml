@@ -24,7 +24,7 @@ jobs:
       - name: Build build image
         run: make docker-build-image
       - name: Build
-        run: patch -p1 -d third_party/opentelemetry-operations-collector < patch/remove-test.patch | make TARGET=build-tarball docker-run .
+        run: patch -p1 -d third_party/opentelemetry-operations-collector < patch/remove-test.patch | make TARGET=build-tarball-gh docker-run .
       - name: version
         run: cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'
         id: version
