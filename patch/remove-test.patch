@@ -7,7 +7,7 @@ index 4b21dca..9ed9e5d 100644
  build-tarball: clean-dist test build package-tarball
  
 +.PHONY: build-tarball-gh
-+build-tarball: clean-dist build package-tarball
++build-tarball-gh: clean-dist build package-tarball
 +
  .PHONY: package-tarball-exporters
  package-tarball-exporters:
