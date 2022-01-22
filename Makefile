@@ -44,7 +44,7 @@ tag-release:
 	$(eval VER=$(shell cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'))
 	echo $(VER)
 	git tag -a v$(VER)
-	git push origin v$(VER)
+	git push --force origin v$(VER)
 
 # -------------------------------------------
 #  Run targets inside the docker build image
