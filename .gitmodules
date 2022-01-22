@@ -1,0 +1,4 @@
+[submodule "third_party/opentelemetry-operations-collector"]
+	path = third_party/opentelemetry-operations-collector
+	url = https://github.com/GoogleCloudPlatform/opentelemetry-operations-collector.git
+	branch = 6cc859f9ce05d150af5a6810318052fc908771e6
