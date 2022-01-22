@@ -39,6 +39,12 @@ docker-build-image:
 docker-build-runtime:
 	podman build -t $(BUILD_IMAGE) .
 
+.PHONY: tag-release
+tag-release:
+	VER=${cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'}
+	git tag -a v$(VER)
+	git push origin v$(VER)
+
 # -------------------------------------------
 #  Run targets inside the docker build image
 # -------------------------------------------

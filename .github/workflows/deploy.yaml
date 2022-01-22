@@ -26,24 +26,24 @@ jobs:
       - name: Build
         run: make TARGET=build-tarball docker-run .
       - name: version
-          run: cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'
-          id: version
+        run: cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'
+        id: version
       - name: release
-          uses: actions/create-release@v1
-          id: create_release
-          with:
-            draft: false
-            prerelease: false
-            release_name: ${{ steps.version.outputs.version }}
-            tag_name: ${{ github.ref }}
-          env:
-            GITHUB_TOKEN: ${{ github.token }}
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: upload linux artifact
-          uses: actions/upload-release-asset@v1
-          env:
-            GITHUB_TOKEN: ${{ github.token }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: third_party/opentelemetry-operations-collector/bin/google-cloud-metrics-agent_linux_amd64
-            asset_name: gcp-fcos-agent.linux-amd64.tar.gz
-            asset_content_type: application/gzip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: third_party/opentelemetry-operations-collector/bin/google-cloud-metrics-agent_linux_amd64
+          asset_name: gcp-fcos-agent.linux-amd64.tar.gz
+          asset_content_type: application/gzip
