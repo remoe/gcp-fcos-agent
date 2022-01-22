@@ -37,11 +37,11 @@ jobs:
           release_name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.fedora-vm-devhost }}
       - name: upload linux artifact
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.fedora-vm-devhost }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: third_party/opentelemetry-operations-collector/bin/google-cloud-metrics-agent_linux_amd64
