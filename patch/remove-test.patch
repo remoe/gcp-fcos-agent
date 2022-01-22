@@ -1,0 +1,14 @@
+diff --git a/Makefile b/Makefile
+index 4b21dca..9ed9e5d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -126,6 +126,9 @@ package-tarball:
+ .PHONY: build-tarball
+ build-tarball: clean-dist test build package-tarball
+ 
++.PHONY: build-tarball-gh
++build-tarball: clean-dist build package-tarball
++
+ .PHONY: package-tarball-exporters
+ package-tarball-exporters:
+ 	make package-tarball CONFIG_FILE=config-linux-with-exporters.yaml

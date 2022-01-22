@@ -41,7 +41,8 @@ docker-build-runtime:
 
 .PHONY: tag-release
 tag-release:
-	VER=${cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'}
+	$(eval VER=$(shell cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'))
+	echo $(VER)
 	git tag -a v$(VER)
 	git push origin v$(VER)
 
