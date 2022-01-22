@@ -1,0 +1,56 @@
+name: Create and publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  COLLECTOR_PATH: third_party/opentelemetry-operations-collector
+#  REGISTRY: ghcr.io
+#  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Build build image
+        run: make docker-build-image
+      - name: Build
+        run: |
+          patch -p1 -d ${{ env.COLLECTOR_PATH }} < patch/remove-test.patch
+          make TARGET=build-tarball-gh docker-run . 
+      - name: Create agent archive
+        run: |
+          mv ${{ env.COLLECTOR_PATH }}/bin/google-cloud-metrics-agent_linux_amd64 ${{ env.COLLECTOR_PATH }}/bin/otelopscol
+          tar -czf gcp-fcos-agent.linux-amd64.tar.gz -C ${{ env.COLLECTOR_PATH }}/bin otelopscol
+      - name: version
+        run: cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'
+        id: version
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE }}
+      - name: upload linux artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./gcp-fcos-agent.linux-amd64.tar.gz
+          asset_name: gcp-fcos-agent.linux-amd64.tar.gz
+          asset_content_type: application/gzip
