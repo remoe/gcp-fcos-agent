@@ -26,12 +26,12 @@ jobs:
         run: make docker-build-image
       - name: Build
         run: |
-          patch -p1 -d {{ env.COLLECTOR_PATH }} < patch/remove-test.patch
+          patch -p1 -d ${{ env.COLLECTOR_PATH }} < patch/remove-test.patch
           make TARGET=build-tarball-gh docker-run . 
       - name: Create agent archive
         run: |
-          mv {{ env.COLLECTOR_PATH }}/bin/google-cloud-metrics-agent_linux_amd64 {{ env.COLLECTOR_PATH }}/bin/otelopscol
-          tar -czf gcp-fcos-agent.linux-amd64.tar.gz -C {{ env.COLLECTOR_PATH }}/bin otelopscol
+          mv ${{ env.COLLECTOR_PATH }}/bin/google-cloud-metrics-agent_linux_amd64 ${{ env.COLLECTOR_PATH }}/bin/otelopscol
+          tar -czf gcp-fcos-agent.linux-amd64.tar.gz -C ${{ env.COLLECTOR_PATH }}/bin otelopscol
       - name: version
         run: cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'
         id: version
