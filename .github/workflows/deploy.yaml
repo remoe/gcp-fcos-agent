@@ -31,7 +31,7 @@ jobs:
       - name: Create agent archive
         run: |
           mv ${{ env.COLLECTOR_PATH }}/bin/google-cloud-metrics-agent_linux_amd64 ${{ env.COLLECTOR_PATH }}/bin/otelopscol
-          tar -czf gcp-fcos-agent.linux-amd64.tar.gz -C ${{ env.COLLECTOR_PATH }}/bin otelopscol
+          gzip -c ${{ env.COLLECTOR_PATH }}/bin/otelopscol > gcp-fcos-agent.linux-amd64.gz -C 
       - name: version
         run: cat VERSION | grep -Po '(?<=PKG_VERSION=)\d.\d.\d'
         id: version
@@ -51,6 +51,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./gcp-fcos-agent.linux-amd64.tar.gz
-          asset_name: gcp-fcos-agent.linux-amd64.tar.gz
+          asset_path: ./gcp-fcos-agent.linux-amd64.gz
+          asset_name: gcp-fcos-agent.linux-amd64.gz
           asset_content_type: application/gzip
