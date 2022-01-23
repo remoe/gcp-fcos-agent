@@ -90,6 +90,22 @@ files:
         ...
 ```
 
+## Download/Install
+
+```yaml
+files:
+  - path: /usr/local/sbin/gcp-fcos-agent/otelopscol
+    overwrite: true
+    contents:
+      source: https://github.com/remoe/gcp-fcos-agent/releases/download/v0.0.3/gcp-fcos-agent.linux-amd64.gz
+      compression: gzip
+    mode: 0555
+    user:
+      name: core
+    group:
+      name: core
+```
+
 ## Systemd Service
 
 To run the OpenTelemetry collector one need to define a Systemd service:
