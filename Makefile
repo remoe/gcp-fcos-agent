@@ -1,3 +1,4 @@
+# Partial borrowed from https://github.com/GoogleCloudPlatform/opentelemetry-operations-collector/blob/master/Makefile
 # read PKG_VERSION from VERSION file
 include VERSION
 
